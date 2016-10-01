@@ -20,16 +20,16 @@ defmodule Todo.Server do
   # Client API
 
   def start do
-    GenServer.start(Todo.Server, nil, name: __MODULE__)
+    GenServer.start(Todo.Server, nil)
   end
-  def add_entry(date, title) do
-    GenServer.cast(__MODULE__, {:add_entry, %{date: date, title: title}})
+  def add_entry(pid, %{date: _date, title: _title}=new_entry) do
+    GenServer.cast(pid, {:add_entry, new_entry})
   end
-  def entries(date) do
-    GenServer.call(__MODULE__, {:entries, date})
+  def entries(pid, date) do
+    GenServer.call(pid, {:entries, date})
   end
-  def delete(entry_id) do
-    GenServer.cast(__MODULE__, {:delete, entry_id})
+  def delete(pid, entry_id) do
+    GenServer.cast(pid, {:delete, entry_id})
   end
 
 end

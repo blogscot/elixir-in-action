@@ -2,12 +2,19 @@ defmodule Todo.Database do
   use GenServer
 
   def init(db_folder) do
-    # start testing with a single worker
-    Todo.DatabaseWorker.start(db_folder)  # returns {:ok, pid}
+    {:ok, start_workers(db_folder)}
   end
 
-  def handle_call({:get_worker, _key}, _from, worker) do
-    {:reply, worker, worker}
+  def start_workers(db_folder) do
+    for index <- 0..2, into: Map.new do
+      {:ok, pid} = Todo.DatabaseWorker.start(db_folder)
+      {index, pid}
+    end
+  end
+
+  def handle_call({:get_worker, key}, _from, workers) do
+    index = :erlang.phash2(key, 3) # Index is 0..2
+    {:reply, workers[index], workers}
   end
 
   # Client API

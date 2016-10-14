@@ -21,8 +21,8 @@ defmodule Todo.Server do
 
   # Client API
 
-  def start(list_name) do
-    GenServer.start(Todo.Server, list_name)
+  def start_link(list_name) do
+    GenServer.start_link(Todo.Server, list_name)
   end
   def add_entry(pid, %{date: _date, title: _title}=new_entry) do
     GenServer.cast(pid, {:add_entry, new_entry})

@@ -29,8 +29,10 @@ defmodule Todo.DatabaseWorker do
 
   # Client API
 
-  def start(db_folder) do
-    GenServer.start(__MODULE__, db_folder)
+  def start_link(db_folder) do
+    IO.puts "Starting database worker"
+
+    GenServer.start_link(__MODULE__, db_folder)
   end
   def store(pid, key, data) do
     GenServer.cast(pid, {:store, key, data})

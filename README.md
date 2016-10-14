@@ -1,24 +1,27 @@
-# Todo
 
-**TODO: Add description**
+## Starting the application
 
-## Installation
+```
+Todo.Supervisor.start_link
+Starting database server
+Starting database worker
+Starting database worker
+Starting database worker
+Starting to-do cache.
+{:ok, #PID<0.125.0>}
+```
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+## Create or retrieve a list
 
-  1. Add `todo` to your list of dependencies in `mix.exs`:
+```
+ bobs_list = Todo.Cache.server_process("bobs_list")
+#PID<0.132.0>
+ ```
 
-    ```elixir
-    def deps do
-      [{:todo, "~> 0.1.0"}]
-    end
-    ```
+ ## Viewing a list's entries
 
-  2. Ensure `todo` is started before your application:
-
-    ```elixir
-    def application do
-      [applications: [:todo]]
-    end
-    ```
-    
+ ```
+ Todo.Server.entries(bobs_list, {2013, 12, 19})
+ [%{date: {2013, 12, 19}, id: 1, title: "Dentist"},
+ %{date: {2013, 12, 19}, id: 2, title: "Football"}]
+ ```

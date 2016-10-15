@@ -6,7 +6,7 @@ defmodule Todo.PoolSupervisor do
   end
 
   def init({db_folder, pool_size}) do
-    processes = for worker_id <- 1..pool_size do
+    processes = for worker_id <- 0..pool_size-1 do
       worker(
       Todo.DatabaseWorker, [db_folder, worker_id],
       id: {:database_worker, worker_id}
